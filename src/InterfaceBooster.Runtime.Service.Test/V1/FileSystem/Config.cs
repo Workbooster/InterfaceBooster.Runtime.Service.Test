@@ -28,7 +28,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem
         // Server
 
         public static string 
-            serviceUrl = "http://localhost:80/";
+            ServiceUrl = "http://localhost:80/";
 
         // Server Instance
 

@@ -37,7 +37,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
         [SetUp]
         public void SetupTest()
         {
-            _Client = Helpers.ClientServices.SetupHttpClient(Config.serviceUrl);
+            _Client = Helpers.ClientServices.SetupHttpClient(Config.ServiceUrl);
 
             Helpers.TestEnvironnement.PostFiles();
         }

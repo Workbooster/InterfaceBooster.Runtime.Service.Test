@@ -35,7 +35,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [SetUp]
         public void SetupTest()
         {
-            _Client = ClientServices.SetupHttpClient(Config.serviceUrl);
+            _Client = ClientServices.SetupHttpClient(Config.ServiceUrl);
 
             TestEnvironnement.PostDirectories();
         }
