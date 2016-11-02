@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceBooster.Runtime.Service.Test", "InterfaceBooster.Test.FileSystem\InterfaceBooster.Runtime.Service.Test.csproj", "{7FEB7A37-F2DE-41BA-9673-F1C8B49D96C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceBooster.Runtime.Service.Test", "InterfaceBooster.Runtime.Service.Test\InterfaceBooster.Runtime.Service.Test.csproj", "{7FEB7A37-F2DE-41BA-9673-F1C8B49D96C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
