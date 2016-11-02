@@ -87,6 +87,12 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
 
         public static void GetOrDeleteFiles()
         {
+            if (Directory.Exists(Config.LocalResultPath))
+            {
+                Directory.Delete(Config.LocalResultPath, true);
+            }
+            Directory.CreateDirectory(Config.LocalResultPath);
+
             if (!File.Exists(Path.Combine(Config.FileSystemPath, Config.MyPicture)))
             {
                 File.Copy(Path.Combine(Config.LocalFiles, Config.MyPicture), Path.Combine(Config.FileSystemPath, Config.MyPicture));
