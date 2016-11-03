@@ -20,7 +20,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
         #region CONSTANTS
 
         const string
-            RESTROOT = "filesystem/file";
+            ENDPOINT = "filesystem/file";
 
         #endregion CONSTANTS
 
@@ -46,7 +46,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             string fileName = Config.MyPicture;
             string filePath = String.Format("/{0}", fileName);
 
-            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -72,7 +72,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             string fileName = "anyPicture";
             string filePath = String.Format("/{0}", fileName);
 
-            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.NotFound, clientTask.Result.StatusCode);
@@ -84,7 +84,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             string fileName = Config.YourPicture;
             string filePath = String.Format("/{0}/{1}", Config.LevelOne, fileName);
 
-            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -110,7 +110,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             string fileName = Config.MyPicture;
             string filePath = String.Format("/{0}/{1}", Config.LevelOne,fileName);
 
-            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", RESTROOT, Config.LevelOne, filePath));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path={1}", ENDPOINT, Config.LevelOne, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.NotFound, clientTask.Result.StatusCode);

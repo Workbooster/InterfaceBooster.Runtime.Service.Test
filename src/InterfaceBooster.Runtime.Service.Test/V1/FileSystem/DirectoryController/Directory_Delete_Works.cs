@@ -20,7 +20,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         #region CONSTANTS
 
         const string
-            RESTROOT = "filesystem/directory";
+            ENDPOINT = "filesystem/directory";
 
         #endregion CONSTANTS
 
@@ -43,7 +43,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Delete_Directory_In_Root_Works()
         {
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.PremierNiveau));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.PremierNiveau));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -52,7 +52,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Delete_A_Not_Empty_Directory_In_Root_Works()
         {
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.LivelloUno));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.LivelloUno));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -61,7 +61,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Delete_A_SubDirectory_Works()
         {
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", RESTROOT, String.Format("{0}/{1}", Config.ErsteStufe, Config.ZweiteStufe)));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", ENDPOINT, String.Format("{0}/{1}", Config.ErsteStufe, Config.ZweiteStufe)));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -70,7 +70,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Delete_A_Wrong_Addressed_SubDirectory_Doesn_t_Work()
         {
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.DeuxiemeNiveau));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.DeuxiemeNiveau));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.NotFound, clientTask.Result.StatusCode);
@@ -79,12 +79,12 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Delete_Another_Directory_In_Root_Works()
         {
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.ErsteStufe));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.ErsteStufe));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
 
-            clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.PremierNiveau));
+            clientTask = _Client.DeleteAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.PremierNiveau));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);

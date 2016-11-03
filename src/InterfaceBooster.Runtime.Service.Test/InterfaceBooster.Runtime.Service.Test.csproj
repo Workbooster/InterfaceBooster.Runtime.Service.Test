@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="V1\FileSystem\Config.cs" />
-    <Compile Include="V1\FileSystem\Class1.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Get_MetaData_Works.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Post_Works.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Delete_Works.cs" />

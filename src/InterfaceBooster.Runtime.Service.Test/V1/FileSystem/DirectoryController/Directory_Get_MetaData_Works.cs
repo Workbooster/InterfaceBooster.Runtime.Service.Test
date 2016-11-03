@@ -20,7 +20,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         #region CONSTANTS
 
         const string
-            RESTROOT = "filesystem/directory";
+            ENDPOINT = "filesystem/directory";
 
         #endregion CONSTANTS
 
@@ -43,7 +43,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Get_Directory_MetaData_From_Root_Works()
         {
-            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", RESTROOT, ""));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, ""));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -78,7 +78,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Get_Directory_MetaData_From_LevelOne_Works()
         {
-            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.LevelOne));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.LevelOne));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -105,7 +105,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Get_Directory_MetaData_From_LevelTwo_Works()
         {
-            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", RESTROOT, String.Format("/{0}/{1}",  Config.LevelOne, Config.LevelTwo)));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, String.Format("/{0}/{1}",  Config.LevelOne, Config.LevelTwo)));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -124,7 +124,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Get_Not_Existing_Directory_MetaData_Doesn_T_Work()
         {
-            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", RESTROOT, "root"));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, "root"));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.NotFound, clientTask.Result.StatusCode);
@@ -133,7 +133,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Get_Directory_MetaData_Without_Path_Declaration_Doesn_T_Work()
         {
-            var clientTask = _Client.GetAsync(RESTROOT);
+            var clientTask = _Client.GetAsync(ENDPOINT);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.InternalServerError, clientTask.Result.StatusCode);

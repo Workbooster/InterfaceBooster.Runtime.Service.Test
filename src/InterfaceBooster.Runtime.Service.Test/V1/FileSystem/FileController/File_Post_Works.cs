@@ -19,7 +19,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
         #region CONSTANTS
 
         const string
-            RESTROOT = "filesystem/file";
+            ENDPOINT = "filesystem/file";
 
         #endregion CONSTANTS
 
@@ -53,13 +53,11 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
-
-            Assert.IsTrue(File.Exists(
-                Path.Combine(Config.FileSystemPath, filePath.TrimStart('/').Replace("/", @"\"))));
+            Assert.IsTrue(File.Exists(Helpers.ClientServices.SystemIoPath(filePath)));
         }
 
         [Test]
@@ -75,13 +73,11 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
-
-            Assert.IsTrue(File.Exists(
-                Path.Combine(Config.FileSystemPath, filePath.TrimStart('/').Replace("/", @"\"))));
+            Assert.IsTrue(File.Exists(Helpers.ClientServices.SystemIoPath(filePath)));
         }
 
         [Test]
@@ -97,13 +93,11 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
-
-            Assert.IsTrue(File.Exists(
-                Path.Combine(Config.FileSystemPath, filePath.TrimStart('/').Replace("/", @"\"))));
+            Assert.IsTrue(File.Exists(Helpers.ClientServices.SystemIoPath(filePath)));
         }
 
         [Test]
@@ -119,14 +113,15 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
+            Assert.IsTrue(File.Exists(Helpers.ClientServices.SystemIoPath(filePath)));
         }
 
         [Test]
-        public void Post_File_To_Not_Existing_LevelThree_With_Same_Name_Doesn_T_Work()
+        public void Post_File_To_Not_Existing_LevelThree_With_Same_Name_Works()
         {
             string sourceFileName = Config.MyPicture;
 
@@ -138,10 +133,11 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
-            Assert.AreEqual(HttpStatusCode.NotAcceptable, clientTask.Result.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
+            Assert.IsTrue(File.Exists(Helpers.ClientServices.SystemIoPath(filePath)));
         }
 
         [Test]
@@ -159,7 +155,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.InternalServerError, clientTask.Result.StatusCode);
@@ -178,7 +174,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             MultipartFormDataContent content =
                 Helpers.MultipartFileData.singleFile(_FileMetaData, _FileTransferredData);
 
-            var clientTask = _Client.PostAsync(RESTROOT, content);
+            var clientTask = _Client.PostAsync(ENDPOINT, content);
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.InternalServerError, clientTask.Result.StatusCode);

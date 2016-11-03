@@ -20,7 +20,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
         #region CONSTANTS
 
         const string
-            RESTROOT = "filesystem/file";
+            ENDPOINT = "filesystem/file";
 
         #endregion CONSTANTS
 
@@ -49,7 +49,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             Assert.IsTrue(File.Exists(
                 Path.Combine(Config.FileSystemPath, filePath.TrimStart('/').Replace("/", @"\"))));
 
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -64,7 +64,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             string fileName = Config.YourPicture;
             string filePath = String.Format("/{0}", fileName);
 
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.NotFound, clientTask.Result.StatusCode);
@@ -79,7 +79,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             Assert.IsTrue(File.Exists(
                 Path.Combine(Config.FileSystemPath, filePath.TrimStart('/').Replace("/", @"\"))));
 
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -94,7 +94,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             string fileName = Config.MyPicture;
             string filePath = String.Format("/{0}/{1}/{2}", Config.LevelOne, Config.LevelTwo, fileName);
 
-            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", RESTROOT, filePath));
+            var clientTask = _Client.DeleteAsync(String.Format("{0}?path={1}", ENDPOINT, filePath));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.NotFound, clientTask.Result.StatusCode);
