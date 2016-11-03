@@ -20,7 +20,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         #region CONSTANTS
 
         const string
-            RESTROOT = "filesystem/directory";
+            ENDPOINT = "filesystem/directory";
 
         #endregion CONSTANTS
 
@@ -43,30 +43,42 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Post_Directory_To_Root_Works()
         {
-            var clientTask = _Client.PostAsync(String.Format("{0}?path=/{1}", RESTROOT, Config.PremierNiveau), null);
+            string path = Config.PremierNiveau;
+
+            var clientTask = _Client.PostAsJsonAsync(ENDPOINT, FillMetaData(path));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.Created, clientTask.Result.StatusCode);
+
+            Assert.IsTrue(Directory.Exists(ClientServices.SystemIoPath(path)));
         }
 
         [Test]
         public void Post_Directory_To_Yet_Existing_Premiere_Niveau_Works()
         {
-            var clientTask = _Client.PostAsync(String.Format("{0}?path=/{1}", RESTROOT, String.Format("{0}/{1}", Config.PremierNiveau, Config.DeuxiemeNiveau)), null);
+            string path = String.Format("{0}/{1}", Config.PremierNiveau, Config.DeuxiemeNiveau);
+
+            var clientTask = _Client.PostAsJsonAsync(ENDPOINT, FillMetaData(path));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.Created, clientTask.Result.StatusCode);
+
+            Assert.IsTrue(Directory.Exists(ClientServices.SystemIoPath(path)));
         }
 
         [Test]
         public void Post_Yet_Existing_Directory_Deuxieme_Niveau_Works()
         {
-            var clientTask = _Client.PostAsync(String.Format("{0}?path=/{1}", RESTROOT, String.Format("{0}/{1}", Config.PremierNiveau, Config.DeuxiemeNiveau)), null);
+            string path = String.Format("{0}/{1}", Config.PremierNiveau, Config.DeuxiemeNiveau);
+
+            var clientTask = _Client.PostAsJsonAsync(ENDPOINT, FillMetaData(path));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.Created, clientTask.Result.StatusCode);
 
-            clientTask = _Client.PostAsync(String.Format("{0}?path=/{1}", RESTROOT, String.Format("{0}/{1}", Config.PremierNiveau, Config.DeuxiemeNiveau)), null);
+            Assert.IsTrue(Directory.Exists(ClientServices.SystemIoPath(path)));
+
+            clientTask = _Client.PostAsJsonAsync(ENDPOINT, FillMetaData(path));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.Accepted, clientTask.Result.StatusCode);
@@ -75,21 +87,39 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         [Test]
         public void Post_Not_Yet_Existing_Sub_Directory_Livello_Livello_Due_Works()
         {
-            var clientTask = _Client.PostAsync(String.Format("{0}?path=/{1}", RESTROOT, String.Format("{0}/{1}", Config.LivelloUno, Config.LivelloDue)), null);
+            string path = String.Format("{0}/{1}", Config.LivelloUno, Config.LivelloDue);
+
+            var clientTask = _Client.PostAsJsonAsync(ENDPOINT, FillMetaData(path));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.Created, clientTask.Result.StatusCode);
+
+            Assert.IsTrue(Directory.Exists(ClientServices.SystemIoPath(path)));
         }
 
         [Test]
         public void Post_Directory_Without_Path_Declaration_Doesn_T_Work()
         {
-            var clientTask = _Client.PostAsync(RESTROOT, null);
+            var clientTask = _Client.PostAsJsonAsync(ENDPOINT, new DirectoryMetaDataDto());
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.InternalServerError, clientTask.Result.StatusCode);
         }
 
         #endregion PUBLIC METHODS
+
+        #region INTERNAL METHODS
+
+        private DirectoryMetaDataDto FillMetaData(string path)
+        {
+            return new DirectoryMetaDataDto
+            {
+                Name = path.Substring(path.LastIndexOf("/") + 1),
+                Path = path
+            };
+        }
+
+        #endregion INTERNAL METHODS
+
     }
 }

@@ -12,68 +12,6 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
 {
     public static class ClientServices
     {
-        //public static void GetDirectory(FileTransferDataDto fileContents)
-        //{
-        //    Get<FileTransferDataDto>("filesystem/directory", fileContents);
-        //}
-
-        //public static FileTransferDataDto PostFile(FileTransferDataDto fileContents)
-        //{
-        //    return Post<FileTransferDataDto>("filesystem/file", fileContents);
-        //}
-
-        //private static TContent Get<TContent>(string endpoint, TContent content)
-        //{
-        //    using (var client = SetupHttpClient())
-        //    {
-        //        //var clientTask = client.GetAsJsonAsync("filesystem/directory", content);
-        //        var clientTask = client.GetAsync(endpoint);
-        //        clientTask.Wait();
-
-        //        HttpResponseMessage response = clientTask.Result;
-
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            try
-        //            {
-        //                var contentReadingTask = response.Content.ReadAsAsync<TContent>();
-        //                contentReadingTask.Wait();
-        //                return contentReadingTask.Result;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                throw new Exception(String.Format("Error while reading the response from GET request to {0}/{1}. Message: {2}", client.BaseAddress, endpoint, ex.Message), ex);
-        //            }
-        //        }
-        //        throw new Exception(String.Format("Error response from server while running GET request to {0}/{1}. Reason: {2}", client.BaseAddress, endpoint, response.ReasonPhrase));
-        //    }
-        //}
-
-        //private static TContent Post<TContent>(string endpoint, TContent content)
-        //{
-        //    using (var client = SetupHttpClient())
-        //    {
-        //        var clientTask = client.PostAsJsonAsync(endpoint, content);
-        //        clientTask.Wait();
-
-        //        HttpResponseMessage response = clientTask.Result;
-
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            try
-        //            {
-        //                var contentReadingTask = response.Content.ReadAsAsync<TContent>();
-        //                contentReadingTask.Wait();
-        //                return contentReadingTask.Result;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                throw new Exception(String.Format("Error while reading the response from GET request to {0}/{1}. Message: {2}", client.BaseAddress, endpoint, ex.Message), ex);
-        //            }
-        //        }
-        //        throw new Exception(String.Format("Error response from server while running GET request to {0}/{1}. Reason: {2}", client.BaseAddress, endpoint, response.ReasonPhrase));
-        //    }
-        //}
 
         public static HttpClient SetupHttpClient(string baseUri)
         {
@@ -95,6 +33,13 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
             return FillFileMetaData(
                 Path.Combine(Config.FileSystemPath, fileSystemFilePath));
         }
+
+        public static string SystemIoPath(string fileSystemPath)
+        {
+           return
+               Path.Combine(Config.FileSystemPath, fileSystemPath.TrimStart('/').Replace("/", @"\"));
+        }
+
 
         #region INTERNAL METHODS
 
