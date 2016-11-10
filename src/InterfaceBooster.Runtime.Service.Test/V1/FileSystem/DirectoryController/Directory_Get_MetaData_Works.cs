@@ -41,9 +41,9 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         }
 
         [Test]
-        public void Get_Directory_MetaData_From_Root_Works()
+        public void Get_Directory_MetaData_From_Root_Resursive_Works()
         {
-            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, ""));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}&recursive=true", ENDPOINT, ""));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -76,9 +76,90 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         }
 
         [Test]
-        public void Get_Directory_MetaData_From_LevelOne_Works()
+        public void Get_Directory_MetaData_From_Root_Not_Resursive_Plan_A_Works()
         {
-            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.LevelOne));
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}&recursive=false", ENDPOINT, ""));
+            clientTask.Wait();
+
+            Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
+
+            HttpResponseMessage response = clientTask.Result;
+
+            var contentReadingTask = response.Content.ReadAsAsync<DirectoryMetaDataDto>();
+            contentReadingTask.Wait();
+
+            DirectoryMetaDataDto directoryMetaData = contentReadingTask.Result;
+
+            Assert.AreEqual("", directoryMetaData.Name);
+            Assert.AreEqual("/", directoryMetaData.Path);
+
+            FileMetaDataDto fileMetaData = directoryMetaData.NestedFiles.FirstOrDefault(nfl => nfl.Name == Config.MyPicture);
+
+            Assert.AreNotEqual(null, fileMetaData);
+
+            directoryMetaData = directoryMetaData.NestedDirectories.FirstOrDefault(ndr => ndr.Name == Config.LevelOne);
+
+            Assert.AreEqual(null, directoryMetaData);
+        }
+
+        [Test]
+        public void Get_Directory_MetaData_From_Root_Not_Resursive_Plan_B_Works()
+        {
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}&recursive=guess", ENDPOINT, ""));
+            clientTask.Wait();
+
+            Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
+
+            HttpResponseMessage response = clientTask.Result;
+
+            var contentReadingTask = response.Content.ReadAsAsync<DirectoryMetaDataDto>();
+            contentReadingTask.Wait();
+
+            DirectoryMetaDataDto directoryMetaData = contentReadingTask.Result;
+
+            Assert.AreEqual("", directoryMetaData.Name);
+            Assert.AreEqual("/", directoryMetaData.Path);
+
+            FileMetaDataDto fileMetaData = directoryMetaData.NestedFiles.FirstOrDefault(nfl => nfl.Name == Config.MyPicture);
+
+            Assert.AreNotEqual(null, fileMetaData);
+
+            directoryMetaData = directoryMetaData.NestedDirectories.FirstOrDefault(ndr => ndr.Name == Config.LevelOne);
+
+            Assert.AreEqual(null, directoryMetaData);
+        }
+
+        [Test]
+        public void Get_Directory_MetaData_From_Root_Default_Works()
+        {
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}&recursive=guess", ENDPOINT, ""));
+            clientTask.Wait();
+
+            Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
+
+            HttpResponseMessage response = clientTask.Result;
+
+            var contentReadingTask = response.Content.ReadAsAsync<DirectoryMetaDataDto>();
+            contentReadingTask.Wait();
+
+            DirectoryMetaDataDto directoryMetaData = contentReadingTask.Result;
+
+            Assert.AreEqual("", directoryMetaData.Name);
+            Assert.AreEqual("/", directoryMetaData.Path);
+
+            FileMetaDataDto fileMetaData = directoryMetaData.NestedFiles.FirstOrDefault(nfl => nfl.Name == Config.MyPicture);
+
+            Assert.AreNotEqual(null, fileMetaData);
+
+            directoryMetaData = directoryMetaData.NestedDirectories.FirstOrDefault(ndr => ndr.Name == Config.LevelOne);
+
+            Assert.AreEqual(null, directoryMetaData);
+        }
+
+        [Test]
+        public void Get_Directory_MetaData_From_LevelOne_Recursive_Works()
+        {
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}&recursive=true", ENDPOINT, Config.LevelOne));
             clientTask.Wait();
 
             Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
@@ -103,7 +184,34 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.DirectoryControlle
         }
 
         [Test]
-        public void Get_Directory_MetaData_From_LevelTwo_Works()
+        public void Get_Directory_MetaData_From_LevelOne_Default_Works()
+        {
+            var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, Config.LevelOne));
+            clientTask.Wait();
+
+            Assert.AreEqual(HttpStatusCode.OK, clientTask.Result.StatusCode);
+
+            HttpResponseMessage response = clientTask.Result;
+
+            var contentReadingTask = response.Content.ReadAsAsync<DirectoryMetaDataDto>();
+            contentReadingTask.Wait();
+
+            DirectoryMetaDataDto directoryMetaData = contentReadingTask.Result;
+
+            Assert.AreEqual(Config.LevelOne, directoryMetaData.Name);
+            Assert.AreEqual(Path.Combine("/", Config.LevelOne), directoryMetaData.Path);
+
+            FileMetaDataDto fileMetaData = directoryMetaData.NestedFiles.FirstOrDefault(nfl => nfl.Name == Config.YourPicture);
+
+            Assert.AreNotEqual(null, fileMetaData);
+
+            directoryMetaData = directoryMetaData.NestedDirectories.FirstOrDefault(ndr => ndr.Name == Config.LevelTwo);
+
+            Assert.AreEqual(null, directoryMetaData);
+        }
+
+        [Test]
+        public void Get_Directory_MetaData_From_LevelTwo_Default_Works()
         {
             var clientTask = _Client.GetAsync(String.Format("{0}?path=/{1}", ENDPOINT, String.Format("/{0}/{1}",  Config.LevelOne, Config.LevelTwo)));
             clientTask.Wait();
