@@ -52,7 +52,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
                 {
                     Name = fileInfo.Name,
                     Path = FileSystemPath(fileInfo.FullName),
-                    Size = Convert.ToInt32(fileInfo.Length),
+                    Size = fileInfo.Length,
                     DateOfCreation = fileInfo.CreationTime,
                     DateOfLastChange = fileInfo.LastWriteTime
                 };
