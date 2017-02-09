@@ -13,11 +13,39 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
     public static class ClientServices
     {
 
-        public static HttpClient SetupHttpClient(string baseUri)
+        public static HttpClient SetupHttpClient(
+            string baseUri, bool basicAutentication = false, string userName = "", string password = "")
         {
-            var client = new HttpClient();
+            HttpClient client;
 
-            // string baseUri = "http://localhost:63110";
+            if (!basicAutentication)
+            {
+                client = new HttpClient();
+            }
+            else
+            {
+                var authValue =
+                    new AuthenticationHeaderValue("Basic",
+                        Convert.ToBase64String(
+                            Encoding.UTF8.GetBytes(String.Format("{0}:{1}", userName, password))));
+
+                HttpClientHandler handler = new HttpClientHandler();
+
+                client = new HttpClient(handler)
+                {
+                    DefaultRequestHeaders = { Authorization = authValue }
+                    //Set some other client defaults like timeout / BaseAddress
+                };
+
+                //------------------------------------------------------------------------
+
+                //HttpClientHandler handler = new HttpClientHandler
+                //{
+                //    Credentials = new
+                //        System.Net.NetworkCredential(userName, password)
+                //};
+                //client = new HttpClient(handler);
+            }
 
             client.BaseAddress = new Uri(baseUri);
             client.DefaultRequestHeaders.Accept.Clear();
@@ -28,7 +56,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
 
         public static FileMetaDataDto FileMetaData(string fileSystemFilePath)
         {
-            fileSystemFilePath = fileSystemFilePath.TrimStart(new char[] {'/'}).Replace("/", @"\");
+            fileSystemFilePath = fileSystemFilePath.TrimStart(new char[] { '/' }).Replace("/", @"\");
 
             return FillFileMetaData(
                 Path.Combine(Config.FileSystemPath, fileSystemFilePath));
@@ -36,8 +64,8 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
 
         public static string SystemIoPath(string fileSystemPath)
         {
-           return
-               Path.Combine(Config.FileSystemPath, fileSystemPath.TrimStart('/').Replace("/", @"\"));
+            return
+                Path.Combine(Config.FileSystemPath, fileSystemPath.TrimStart('/').Replace("/", @"\"));
         }
 
 
@@ -57,7 +85,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
                     DateOfLastChange = fileInfo.LastWriteTime
                 };
         }
-    
+
         public static string FileSystemPath(string SystemIoPath)
         {
             int rootPos = SystemIoPath.IndexOf(Config.FileSystemDirectory) + Config.FileSystemDirectory.Length;
@@ -71,7 +99,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.Helpers
                 interfaceBoosterPath.Replace(@"\", "/");
         }
 
-#endregion INTERNAL METHODS
+        #endregion INTERNAL METHODS
 
 
     }

@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -57,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="V1\Authentication\Administration\Security_Administration_Works.cs" />
+    <Compile Include="V1\Authentication\Authentication\Authentication_Works.cs" />
+    <Compile Include="V1\Authentication\Helpers\SecurityHandler.cs" />
     <Compile Include="V1\FileSystem\Config.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Get_MetaData_Works.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Post_Works.cs" />
@@ -80,6 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\InterfaceBooster.Server\InterfaceBooster.Runtime.Business.BasicAuth\InterfaceBooster.Runtime.Business.BasicAuth.csproj">
+      <Project>{f63c7837-04ba-4483-9e69-bb13a9b3d03f}</Project>
+      <Name>InterfaceBooster.Runtime.Business.BasicAuth</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
