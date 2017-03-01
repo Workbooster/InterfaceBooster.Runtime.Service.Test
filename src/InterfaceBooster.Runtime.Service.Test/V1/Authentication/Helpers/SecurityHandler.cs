@@ -56,7 +56,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.Authentication.Helpers
             string userInformation = Convert.ToBase64String(
                             Encoding.UTF8.GetBytes(String.Format("{0}:{1}", userName, password)));
 
-            return _Security.AddUser(alias, userInformation, roles);
+            return _Security.AddUser(alias, userName, password, roles);
         }
 
         public bool AddRoleToUser(string alias, string role)

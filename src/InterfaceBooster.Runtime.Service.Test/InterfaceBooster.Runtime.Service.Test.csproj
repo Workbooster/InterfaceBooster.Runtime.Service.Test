@@ -61,6 +61,7 @@
     <Compile Include="V1\Authentication\Administration\Security_Administration_Works.cs" />
     <Compile Include="V1\Authentication\Authentication\Authentication_Works.cs" />
     <Compile Include="V1\Authentication\Helpers\SecurityHandler.cs" />
+    <Compile Include="V1\Authentication\Model\Methods.cs" />
     <Compile Include="V1\FileSystem\Config.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Get_MetaData_Works.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Post_Works.cs" />

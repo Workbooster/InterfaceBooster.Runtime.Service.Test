@@ -40,7 +40,7 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem.FileController
             if (!Authentication)
                 _Client = ClientServices.SetupHttpClient(Config.ServiceUrl);
             else
-                _Client = ClientServices.SetupHttpClient(Config.ServiceUrl, Authentication, "Admin", "abcd$1234");
+                _Client = ClientServices.SetupHttpClient(Config.ServiceUrl, Authentication, "Administrator", "abcd$1234");
 
             TestEnvironnement.GetOrDeleteFiles();
         }

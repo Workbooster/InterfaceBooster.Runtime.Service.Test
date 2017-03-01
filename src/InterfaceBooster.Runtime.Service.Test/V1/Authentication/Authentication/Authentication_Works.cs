@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
-using System.Media;
 using NUnit.Framework;
 using InterfaceBooster.Runtime.Business.BasicAuth.Utilities;
-using InterfaceBooster.Runtime.Business.BasicAuth.Model;
 using InterfaceBooster.Runtime.Service.Test.V1.Authentication.Helpers;
+using InterfaceBooster.Runtime.Service.Test.V1.Authentication.Model;
 
 namespace InterfaceBooster.Runtime.Service.Test.V1.Authentication.Authentication
 {
@@ -63,8 +58,6 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.Authentication.Authentication
         {
             string authHeader = _SecurityHandler.AuthHeder("Administrator", "abcd$1234");
 
-            SystemSounds.Beep.Play();
-
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, ""));
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, ""));
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, ""));
@@ -84,8 +77,6 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.Authentication.Authentication
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "filesystem/file"));
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "filesystem/file"));
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "filesystem/file"));
-
-            SystemSounds.Beep.Play();
         }
 
         [Test]
