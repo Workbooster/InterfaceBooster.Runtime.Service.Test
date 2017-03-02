@@ -62,6 +62,9 @@
     <Compile Include="V1\Authentication\Authentication\Authentication_Works.cs" />
     <Compile Include="V1\Authentication\Helpers\SecurityHandler.cs" />
     <Compile Include="V1\Authentication\Model\Methods.cs" />
+    <Compile Include="V1\Authentication\Services\FileSystem_FileControler_Works.cs" />
+    <Compile Include="V1\Authentication\Services\Prepare_Test_Authentications.cs" />
+    <Compile Include="V1\Authentication\Services\Remove_Text_Authentications.cs" />
     <Compile Include="V1\FileSystem\Config.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Get_MetaData_Works.cs" />
     <Compile Include="V1\FileSystem\DirectoryController\Directory_Post_Works.cs" />
