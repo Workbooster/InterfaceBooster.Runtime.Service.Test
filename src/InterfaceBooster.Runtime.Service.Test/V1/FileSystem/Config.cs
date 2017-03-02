@@ -27,11 +27,11 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.FileSystem
 
         // Server
 
-        //public static string
-        //    ServiceUrl = "http://localhost:63110/";
-
         public static string
-            ServiceUrl = "http://localhost:80/";
+            ServiceUrl = "http://localhost:63110/";
+
+        //public static string
+        //    ServiceUrl = "http://localhost:80/";
 
         // Server Instance
 
