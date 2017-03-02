@@ -43,9 +43,11 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.Authentication.Authentication
             _SecurityHandler.AddPermission("TaskRunner", new string[] { Methods.Get, Methods.Post }, new string[] { "runtime", "task" });
             _SecurityHandler.AddPermission("TaskLogReader", new string[] { Methods.Get }, new string[] { "runtime", "task", "(GUID)", "log" });
             _SecurityHandler.AddPermission("TaskOthers", new string[] { Methods.Get, Methods.Put }, new string[] { "runtime", "task", "(*)", "others" });
+            _SecurityHandler.AddPermission("TaskInteger", new string[] { Methods.Get, Methods.Delete }, new string[] { "runtime", "identity", "(int)"});
+            _SecurityHandler.AddPermission("TaskGuid", new string[] { Methods.Put, Methods.Post }, new string[] { "runtime", "guid", "(GUID)" });
 
             _SecurityHandler.AddRole("Administrator", new string[] { "Administrator" });
-            _SecurityHandler.AddRole("TaskUser", new string[] { "TaskRunner", "TaskLogReader", "TaskOthers" });
+            _SecurityHandler.AddRole("TaskUser", new string[] { "TaskRunner", "TaskLogReader", "TaskOthers", "TaskInteger", "TaskGuid" });
 
             _SecurityHandler.AddUser("ADMIN", "Administrator", "abcd$1234", new string[] { "Administrator" });
             _SecurityHandler.AddUser("GAU", "Giovanni", "Gina", new string[] { "TaskUser" });
@@ -114,10 +116,35 @@ namespace InterfaceBooster.Runtime.Service.Test.V1.Authentication.Authentication
             Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/task/idc/log"));
             Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/task/idc/log"));
 
+            Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/identity/17"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/identity/17"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/identity/17"));
+            Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/identity/17"));
+
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/identity/rabarber"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/identity/rabarber"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/identity/rabarber"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/identity/rabarber"));
+
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/task/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}/log"));
             Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/task/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}/log"));
             Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/task/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}/log"));
             Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/task/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}/log"));
+
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/guid/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}"));
+            Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/guid/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}"));
+            Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/guid/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/guid/{A5871AFF-FCDC-41C2-BD40-4446C002FEF6}"));
+
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/guid/17"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/guid/17"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/guid/17"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/guid/17"));
+
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/guid"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/guid"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Put, "runtime/guid"));
+            Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Delete, "runtime/guid"));
 
             Assert.AreEqual(HttpStatusCode.OK, _BasicAuthentication.KnownCredentials(authHeader, Methods.Get, "runtime/task/idc/others"));
             Assert.AreEqual(HttpStatusCode.Unauthorized, _BasicAuthentication.KnownCredentials(authHeader, Methods.Post, "runtime/task/idc/others"));
